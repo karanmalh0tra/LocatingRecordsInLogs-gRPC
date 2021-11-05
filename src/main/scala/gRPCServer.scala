@@ -17,6 +17,7 @@ object gRPCServer {
     blockServerUntilShutdown(server)
   }
 
+  /* Start the server */
   def startServer(server: gRPCServer): Unit = {
     server.start()
   }
@@ -25,10 +26,12 @@ object gRPCServer {
     server.blockUntilShutdown()
   }
 
+  /* stop the server */
   def stopServer(server: gRPCServer): Unit =  {
     server.stop()
   }
 
+  /* fetch the port from configs */
   private val port:Int = ConfigFactory.load().getInt("port")
 }
 
@@ -36,6 +39,7 @@ class gRPCServer(executionContext: ExecutionContext) { self =>
   private[this] var server: Server = _
   private[this] val logger = Logger.getLogger(classOf[gRPCServer].getName)
   private def start(): Unit = {
+    /* Server will now listen on the port mentioned in the config */
     server = ServerBuilder.forPort(gRPCServer.port).addService(LogCheckerGrpc.bindService(new LogCheckerImpl, executionContext)).build.start
     gRPCServer.logger.info("Server started, listening on " + gRPCServer.port)
     sys.addShutdownHook {
@@ -61,17 +65,19 @@ class gRPCServer(executionContext: ExecutionContext) { self =>
 
   private class LogCheckerImpl extends LogCheckerGrpc.LogChecker {
     override def checkTimestampInLogs(req: LogRequest): Future[LogReply] = {
+      /* fetch url from config and params from client sides request */
       val AWS_URL = config.getString("aws_url")
       //Read input parameters
       val params = req.tandDT.split(",")
       val T = params(0)
       val dT = params(1)
 
-      //Call Lambda API Gateway
+      //Call AWS API Gateway
       val responseAWS = scala.io.Source.fromURL(AWS_URL+"?T="+T+"&dT="+dT)
       val result = responseAWS.mkString
       val json = result.parseJson.asJsObject
       logger.info("json is "+json)
+      /* perform appropriate actions based on whether logs are present within the timestamp range or not */
       val reply = if (json.fields("isPresent").toString() == "\"True\"") {
         LogReply(message = json.fields("content").toString())
       }
