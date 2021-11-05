@@ -1,5 +1,5 @@
 # LocatingRecordsInLogs-gRPC
-A distributed program for locating requested records in the log files.
+A distributed program for locating requested records in the log files using gRPC.
 ---
 Name: Karan Malhotra
 ---
