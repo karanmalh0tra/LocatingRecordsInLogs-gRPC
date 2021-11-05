@@ -1,0 +1,16 @@
+syntax = "proto3";
+package com.karanmalhotra.protos;
+
+service LogChecker {
+  rpc checkTimestampInLogs (LogRequest) returns (LogReply) {}
+}
+
+// The request message containing the T and dT.
+message LogRequest {
+  string TandDT = 1;
+}
+
+// The response message containing the hashed logs
+message LogReply {
+  string message = 1;
+}
