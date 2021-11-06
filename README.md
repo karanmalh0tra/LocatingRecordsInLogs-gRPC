@@ -67,4 +67,11 @@ When logs are present: <br/>
 ![image](https://user-images.githubusercontent.com/22276682/140577790-41623998-4ff5-4e51-a054-1034e5618313.png)
 <br/>
 
+## Other Repos
+[Lambda Function](https://github.com/karanmalh0tra/BinarySearchOnLogs-AWSLambda)
+[Akka HTTP in Scala](https://github.com/karanmalh0tra/LocateRecordsInLogs-AkkaHTTP)
+
 Video Link:
+- Deploy Log File Generator on EC2: https://youtu.be/WQyLCHB2SJ8
+- Create AWS Lambda Function and API Gateway: https://youtu.be/j4bUHBNmxhg
+- Execution of Akka-HTTP and gRPC: https://youtu.be/w6pSpabMkBg
